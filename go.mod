@@ -2,7 +2,12 @@ module github.com/emzola/venato
 
 go 1.20
 
-require github.com/hashicorp/consul/api v1.24.0
+require (
+	github.com/hashicorp/consul/api v1.24.0
+	github.com/julienschmidt/httprouter v1.3.0
+	go.uber.org/zap v1.25.0
+	gopkg.in/yaml.v3 v3.0.1
+)
 
 require (
 	github.com/armon/go-metrics v0.4.1 // indirect
@@ -17,6 +22,7 @@ require (
 	github.com/mattn/go-isatty v0.0.17 // indirect
 	github.com/mitchellh/go-homedir v1.1.0 // indirect
 	github.com/mitchellh/mapstructure v1.5.0 // indirect
+	go.uber.org/multierr v1.10.0 // indirect
 	golang.org/x/exp v0.0.0-20230321023759-10a507213a29 // indirect
 	golang.org/x/sys v0.10.0 // indirect
 )

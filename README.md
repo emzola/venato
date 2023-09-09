@@ -1,6 +1,6 @@
 # VENATO
 
-A gRPC issue tracker microservices back-end.
+An issue tracker microservices back-end.
 
 
 
