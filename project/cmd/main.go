@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"net/http"
 	"os"
+	"path/filepath"
 	"time"
 
 	"github.com/emzola/venato/pkg/discovery"
@@ -21,7 +22,7 @@ var serviceName = "Project"
 func main() {
 	logger, _ := zap.NewProduction()
 	defer logger.Sync()
-	f, err := os.Open("base.yaml")
+	f, err := os.Open(filepath.FromSlash("../configs/base.yaml"))
 	if err != nil {
 		logger.Fatal("Failed to open configuration", zap.Error(err))
 	}
