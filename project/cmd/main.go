@@ -3,17 +3,20 @@ package main
 import (
 	"context"
 	"fmt"
-	"net/http"
+	"net"
 	"os"
 	"path/filepath"
 	"time"
 
+	"github.com/emzola/venato/gen"
 	"github.com/emzola/venato/pkg/discovery"
 	"github.com/emzola/venato/pkg/discovery/consul"
 	"github.com/emzola/venato/project/internal/controller/project"
-	httpHandler "github.com/emzola/venato/project/internal/handler/http"
+	grpcHandler "github.com/emzola/venato/project/internal/handler/grpc"
 	"github.com/emzola/venato/project/internal/repository/postgresql"
 	"go.uber.org/zap"
+	"google.golang.org/grpc"
+	"google.golang.org/grpc/reflection"
 	"gopkg.in/yaml.v3"
 )
 
@@ -56,8 +59,15 @@ func main() {
 		logger.Fatal("Failed to establish database connection pool", zap.Error(err))
 	}
 	ctrl := project.New(repo)
-	h := httpHandler.New(ctrl)
-	if err := http.ListenAndServe(fmt.Sprintf(":%d", port), h.Routes()); err != nil {
+	h := grpcHandler.New(ctrl)
+	lis, err := net.Listen("tcp", fmt.Sprintf("localhost:%v", port))
+	if err != nil {
+		logger.Fatal("Failed to listen", zap.Error(err))
+	}
+	srv := grpc.NewServer()
+	reflection.Register(srv)
+	gen.RegisterProjectServiceServer(srv, h)
+	if err := srv.Serve(lis); err != nil {
 		panic(err)
 	}
 }

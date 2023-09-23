@@ -21,9 +21,10 @@ type Project struct {
 	Version       int64     `json:"version"`
 }
 
-// ValidateProject performs data validation on supplied project data.
+// ValidateProject performs data validation on project data.
 func ValidateProject(v *validator.Validator, project *Project) {
 	v.Check(project.Name != "", "name", "must be provided")
 	v.Check(len(project.Name) <= 500, "name", "must not be more than 500 bytes long")
 	v.Check(len(project.Description) <= 1000, "description", "must not be more than 1000 bytes long")
+	v.Check(project.TargetEndDate.After(project.StartDate), "target end date", "must not be before start date")
 }

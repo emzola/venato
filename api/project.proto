@@ -1,0 +1,71 @@
+syntax = "proto3";
+option go_package = "/gen";
+
+import "google/protobuf/timestamp.proto";
+
+message Project {
+    int64 id = 1;
+    string name = 2;
+	string description = 3;
+	google.protobuf.Timestamp start_date = 4;
+	google.protobuf.Timestamp target_end_date = 5;
+	google.protobuf.Timestamp actual_end_date = 6;
+	google.protobuf.Timestamp created_on = 7;
+	int64 created_by = 8;
+	google.protobuf.Timestamp modified_on = 9;
+	int64 modified_by = 10;
+	int64 version = 11;
+}
+
+service ProjectService {
+    rpc CreateProject(CreateProjectRequest) returns (CreateProjectResponse);
+    rpc GetProject(GetProjectRequest) returns (GetProjectResponse);
+    rpc GetAllProjects(GetAllProjectsRequest) returns (GetAllProjectsResponse);
+    rpc UpdateProject(UpdateProjectRequest) returns (UpdateProjectResponse);
+    rpc DeleteProject(DeleteProjectRequest) returns (DeleteProjectResponse);
+}
+
+message CreateProjectRequest {
+    string name = 1;
+    string description = 2;
+    google.protobuf.Timestamp start_date = 3;
+    google.protobuf.Timestamp target_end_date = 4;
+}
+
+message CreateProjectResponse {
+    Project project = 1;
+}
+
+message GetProjectRequest {
+    int64 project_id = 1;
+}
+
+message GetProjectResponse {
+    Project project = 1;
+}
+
+message GetAllProjectsRequest {}
+
+message GetAllProjectsResponse {}
+
+message UpdateProjectRequest {
+    int64 project_id = 1;
+    string name = 2;
+	string description = 3;
+	google.protobuf.Timestamp start_date = 4;
+	google.protobuf.Timestamp target_end_date = 5;
+	google.protobuf.Timestamp actual_end_date = 6;
+    int64 modified_by = 7; 
+}
+
+message UpdateProjectResponse {
+    Project project = 1;
+}
+
+message DeleteProjectRequest {
+    int64 project_id = 1;
+}
+
+message DeleteProjectResponse {
+    string message = 1;
+}

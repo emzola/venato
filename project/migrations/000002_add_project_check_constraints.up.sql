@@ -1,0 +1,2 @@
+ALTER TABLE project ADD CONSTRAINT project_target_end_date_check CHECK (target_end_date >= start_date);
+ALTER TABLE project ADD CONSTRAINT project_actual_end_date_check CHECK (actual_end_date >= start_date);
